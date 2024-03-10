@@ -1,7 +1,7 @@
 resource "aws_ssm_maintenance_window" "maintance" {
   for_each = local.instance_task
 
-  name                       = each.value.name
+  name                       = "${var.resource_group_name[0]}-${each.value.name}"
   schedule                   = each.value.schedule
   duration                   = local.rules.duration
   cutoff                     = local.rules.cutoff
@@ -11,8 +11,8 @@ resource "aws_ssm_maintenance_window" "maintance" {
 resource "aws_ssm_maintenance_window_target" "target" {
   for_each = local.instance_task
 
+  name          = "${var.resource_group_name[0]}-Target-${each.value.name}"
   window_id     = aws_ssm_maintenance_window.maintance[each.key].id
-  name          = "Target${each.value.name}"
   description   = each.value.description
   resource_type = local.rules.resource_type
 
