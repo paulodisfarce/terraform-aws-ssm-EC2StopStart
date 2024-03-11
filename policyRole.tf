@@ -22,7 +22,6 @@ resource "aws_iam_policy" "maintenance_policy" {
         "Effect" : "Allow",
         "Action" : [
           "ssm:GetAutomationExecution",
-          "ssm:StopAutomationExecution",
           "ssm:StartAutomationExecution"
         ],
         "Resource" : "*"
@@ -51,16 +50,13 @@ resource "aws_iam_policy" "maintenance_policy" {
         "Action" : [
           "resource-groups:ListGroupResources",
           "resource-groups:GetGroup",
-          "resource-groups:SearchResources",
-          "resource-groups:GetGroupQuery",
-          "resource-groups:GetTags"
+          "resource-groups:GetTags",
         ],
         "Resource" : "*"
       }
     ]
   })
 }
-
 
 resource "aws_iam_policy_attachment" "maintenance_policy_attachment" {
   name       = "${var.resource_group_name[0]}-MaintenancePolicyAttachment"
